@@ -7,6 +7,8 @@ clear
 clc
 close all hidden
 
+disp('Hello!')
+
 seed = round(sum(1e6*clock()));
 s = RandStream('mt19937ar','Seed',seed);
 RandStream.setGlobalStream(s);
