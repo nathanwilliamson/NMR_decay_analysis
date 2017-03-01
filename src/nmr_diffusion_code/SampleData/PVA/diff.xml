@@ -1,0 +1,91 @@
+<diff>
+    <XValues>
+        <X i="  0" g="8.12000e+00" q="9.33445e+03" B="3.40887e+08" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  1" g="1.62452e+01" q="1.86748e+04" B="1.36442e+09" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  2" g="2.43703e+01" q="2.80152e+04" B="3.07058e+09" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  3" g="3.24955e+01" q="3.73556e+04" B="5.45939e+09" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  4" g="4.06206e+01" q="4.66960e+04" B="8.53085e+09" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  5" g="4.87458e+01" q="5.60363e+04" B="1.22849e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  6" g="5.68710e+01" q="6.53767e+04" B="1.67217e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  7" g="6.49961e+01" q="7.47171e+04" B="2.18410e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  8" g="7.31213e+01" q="8.40575e+04" B="2.76431e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i="  9" g="8.12465e+01" q="9.33979e+04" B="3.41277e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 10" g="8.93716e+01" q="1.02738e+05" B="4.12950e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 11" g="9.74968e+01" q="1.12079e+05" B="4.91450e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 12" g="1.05622e+02" q="1.21419e+05" B="5.76775e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 13" g="1.13747e+02" q="1.30759e+05" B="6.68928e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 14" g="1.21872e+02" q="1.40100e+05" B="7.67906e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 15" g="1.29997e+02" q="1.49440e+05" B="8.73711e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 16" g="1.38123e+02" q="1.58781e+05" B="9.86343e+10" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 17" g="1.46248e+02" q="1.68121e+05" B="1.10580e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 18" g="1.54373e+02" q="1.77461e+05" B="1.23208e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 19" g="1.62498e+02" q="1.86802e+05" B="1.36520e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 20" g="1.70623e+02" q="1.96142e+05" B="1.50513e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 21" g="1.78748e+02" q="2.05482e+05" B="1.65190e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 22" g="1.86874e+02" q="2.14823e+05" B="1.80549e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 23" g="1.94999e+02" q="2.24163e+05" B="1.96590e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 24" g="2.03124e+02" q="2.33504e+05" B="2.13315e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 25" g="2.11249e+02" q="2.42844e+05" B="2.30721e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 26" g="2.19374e+02" q="2.52184e+05" B="2.48811e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 27" g="2.27499e+02" q="2.61525e+05" B="2.67583e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 28" g="2.35625e+02" q="2.70865e+05" B="2.87038e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 29" g="2.43750e+02" q="2.80205e+05" B="3.07176e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 30" g="2.51875e+02" q="2.89546e+05" B="3.27996e+11" d="2.70000e+00" D="1.00000e+02"/>
+        <X i=" 31" g="2.60000e+02" q="2.98886e+05" B="3.49498e+11" d="2.70000e+00" D="1.00000e+02"/>
+    </XValues>
+    <nXValues>32</nXValues>
+    <diffVersion>diff-4.13</diffVersion>
+    <ExpTyp>ste</ExpTyp>
+    <gdir>6</gdir>
+    <unblank>0.02</unblank>
+    <intArea>0</intArea>
+    <drift>50</drift>
+    <rspcStart>3</rspcStart>
+    <lock>off</lock>
+    <gradListName>difflist</gradListName>
+    <hardDur>0.015</hardDur>
+    <led>No</led>
+    <ledDur>2.05</ledDur>
+    <spoilRec>Yes</spoilRec>
+    <spoilRecDur>10000.00</spoilRecDur>
+    <decoupling>off</decoupling>
+    <userPulprog>No</userPulprog>
+    <pulprog>diffSte</pulprog>
+    <attFactor>0.1</attFactor>
+    <exDiffCoff>6.588e-12</exDiffCoff>
+    <calcExDiffCoff>1</calcExDiffCoff>
+    <gradShapeType>0</gradShapeType>
+    <delta>2.70</delta>
+    <gradPulseTime>4.248</gradPulseTime>
+    <DELTA>100.00</DELTA>
+    <tau>5.27<YesNoValue>Yes</YesNoValue>
+    </tau>
+    <trep>10332.22</trep>
+    <dutyCycle>0.00</dutyCycle>
+    <expDur>11h 45m 41s</expDur>
+    <gradRampType>0</gradRampType>
+    <blank1></blank1>
+    <fctType>10</fctType>
+    <gmax>260.00</gmax>
+    <gstart>8.12<YesNoValue>Yes</YesNoValue>
+    </gstart>
+    <ngrad>32</ngrad>
+    <initRamps></initRamps>
+    <NS>16</NS>
+    <NR>8</NR>
+    <DS>2</DS>
+    <dummyGrad>Yes</dummyGrad>
+    <nDummyGrad>0<YesNoValue>Yes</YesNoValue>
+    </nDummyGrad>
+    <showRampTime>0</showRampTime>
+    <rampUpTime>0.000</rampUpTime>
+    <rampDownTime>0.000</rampDownTime>
+    <gradstab>1.00<YesNoValue>Yes</YesNoValue>
+    </gradstab>
+    <spoil>0</spoil>
+    <spoilDur>2.000</spoilDur>
+    <gspoil>28.82</gspoil>
+    <t1Pars></t1Pars>
+    <topt></topt>
+</diff>
+
