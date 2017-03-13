@@ -12,53 +12,30 @@ s = RandStream('mt19937ar','Seed',random_seed);
 RandStream.setGlobalStream(s);
 
 %% Simulate data set.
+b = linspace(0, 1e11, 64);
+I = signal(b, {{'gamma'}}, [2, 2, 0, 1, 1]);
 
+%% Model and fit parameters.
 
-
-%% end 2nd option
-I=I/I(1);
-% Select which points in the data set to include in fitting.
-pointsInd                   = 1:numel(b);%%[1:2,4:numel(b)];% 
-b                           = b(pointsInd);
-I                           = I(pointsInd);
-
-% return
-
-% Number of fittings (with random initializations).
-nFits                       = 10;
+% Number of fits (with random initializations).
+number_of_fits = 10;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-nMC                         = 10;
+number_of_montecarlo_repetitions = 10;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
-% gamma freely). Specify more than one model for joint analysis and 
-% comparison.
-%models = {    {{'stretchedexponential'}} };
-%models = {    {{'exponential'},{'exponential'}}     };
-models = {    {{'gamma'}},{{'lognormal'}},{{'exponential'},{'exponential'}}     };
-%models = {    {{'lognormal'},{'lognormal'}}     };
-%models = {   {{'lognormal'}} };
-%models = {   {{'lognormal'},{'exponential','D',[1.7e-9 6e-9]}} };
-%models = {   {{'gamma'},{'exponential','D',[1.7e-9 4e-9]}} };
-%models = {    {{'lognormal','mu',[-23.17 -23.14],'sigma',[0.31 0.32]},{'exponential'}}     };
-%models = {    {{'gamma','alpha',9.217,'beta',2.802E10}}     }; 
-% Baseline or no baseline included in model(s)?
-baseline                    = false;
+% gamma freely)
+models = {{'lognormal'}};
 
-% Plot histograms of all the Monte Carlo values of parameters (to manually
-% check for Gaussianity).
-plotMChist                  = false;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% END OF PARAMETERS TO BE EDITED BY USER.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Baseline toggle.
+baseline = false;
 
 %% Estimate.
 nModels                     = numel(models);
 
 fit                        = cell(nModels,1);
 for currentModel = 1:nModels
-    fit_                        = analyze(b,I,models{currentModel},baseline,nFits,nMC);
+    fit_                        = analyze(b,I,models{currentModel},baseline,number_of_fits,number_of_montecarlo_repetitions);
     fit{currentModel}           = fit_;
 end
 
