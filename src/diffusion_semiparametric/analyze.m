@@ -25,7 +25,6 @@ options.ConstraintTolerance = 1e-8;
 % Bounds and constraints for parameters.
 [lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline);
 
-
 % Fit model.
 ss = inf;
 
