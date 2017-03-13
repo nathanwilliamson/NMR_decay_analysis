@@ -30,9 +30,9 @@ options.ConstraintTolerance = 1e-8;
 ss = inf;
 
 for i = 1:number_of_fits
-    param_guess = [];
-    
     % Generate initial values of parameters.
+    disp('TODO: Move random guessing of initial value to separate routine')
+    param_guess = [];
     ind = 1;
     for currentComponent = 1:number_of_components
         switch model{currentComponent}{1}
