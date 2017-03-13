@@ -1,219 +1,40 @@
 function fit = analyze(b, I, model, baseline, number_of_fits, number_of_montecarlo_repetitions)
 
-nnumber_of_components                     = numel(model);
+% The number of components in the model (excluding the baseline).
+number_of_components = numel(model);
 
-% Rescaling for numerical reasons.
-kmax                            = max(b);
-b                               = b / kmax;
+% Rescaling for numerical stability.
+bmax = max(b);
+b = b / bmax;
 
-% Optimization algorithm settings.
-options                         = optimoptions('fmincon');
-options.Algorithm               = 'sqp';
-options.Display                 = 'off';
-options.MaxFunEvals             = 10000;
-options.MaxIter                 = 1000;
-options.TolFun                  = 1e-8;
-options.TolX                    = 1e-8;
+% Optimization algorithm settings. Current propeties work for Matlab
+% R2017a. Todo: Make optim settings conditional on Matlab version.
+options = optimoptions('fmincon');
+options.Algorithm = 'sqp';
+options.Display = 'off';
+options.MaxFunctionEvaluations = 10000;
+options.MaxIterations = 1000;
+options.StepTolerance = 1e-8;
+options.OptimalityTolerance = 1e-8;
+options.ConstraintTolerance = 1e-8;
+% options.MaxFunEvals = 10000;
+% options.MaxIter = 1000;
+% options.TolFun = 1e-8;
+% options.TolX = 1e-8;
 
 % Lower and upper bounds for parameters.
-lb                              = [];
-ub                              = [];
 
-lb_theta                        = zeros(1,nnumber_of_components);
-ub_theta                        = ones(1,nnumber_of_components);
-
-for currentComponent = 1:nnumber_of_components
-    switch model{currentComponent}{1}
-        case 'exponential'
-            lb_D = 0;
-            ub_D = inf;
-            
-            if numel(model{currentComponent}) > 1
-                for i = 2:2:numel(model{currentComponent})-1
-                    switch model{currentComponent}{i}
-                        case 'D'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_D = model{currentComponent}{i+1}(1);
-                                    ub_D = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_D = model{currentComponent}{i+1}(1);
-                                    ub_D = model{currentComponent}{i+1}(2);
-                            end
-                        case 'theta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(2);
-                            end
-                    end
-                end
-            end
-            lb                      = [lb lb_D*kmax];
-            ub                      = [ub ub_D*kmax];
-        case 'stretchedexponential'
-            lb_D = 0;
-            ub_D = inf;
-            lb_beta = 0;
-            ub_beta = 1;
-            
-            if numel(model{currentComponent}) > 1
-                for i = 2:2:numel(model{currentComponent})-1
-                    switch model{currentComponent}{i}
-                        case 'D'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_D = model{currentComponent}{i+1}(1);
-                                    ub_D = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_D = model{currentComponent}{i+1}(1);
-                                    ub_D = model{currentComponent}{i+1}(2);
-                            end
-                        case 'beta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_beta = model{currentComponent}{i+1}(1);
-                                    ub_beta = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_beta = model{currentComponent}{i+1}(1);
-                                    ub_beta = model{currentComponent}{i+1}(2);
-                            end
-                        case 'theta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(2);
-                            end
-                    end
-                end
-            end
-            lb                      = [lb lb_D*kmax lb_beta];
-            ub                      = [ub ub_D*kmax ub_beta];
-        case 'lognormal'
-            cv_min                  = 0.01;
-            lb_mu = -inf;
-            ub_mu = inf;
-            lb_sigma = sqrt(log(1+cv_min^2));
-            ub_sigma = inf;
-            
-            if numel(model{currentComponent}) > 1
-                for i = 2:2:numel(model{currentComponent})-1
-                    switch model{currentComponent}{i}
-                        case 'mu'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_mu = model{currentComponent}{i+1}(1);
-                                    ub_mu = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_mu = model{currentComponent}{i+1}(1);
-                                    ub_mu = model{currentComponent}{i+1}(2);
-                            end
-                        case 'sigma'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_sigma = model{currentComponent}{i+1}(1);
-                                    ub_sigma = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_sigma = model{currentComponent}{i+1}(1);
-                                    ub_sigma = model{currentComponent}{i+1}(2);
-                            end
-                        case 'theta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(2);
-                            end
-                    end
-                end
-            end
-            lb                      = [lb lb_mu+log(kmax) lb_sigma];
-            ub                      = [ub ub_mu+log(kmax) ub_sigma];
-        case 'gamma'
-            lb_alpha = 0;
-            ub_alpha = inf;
-            lb_beta = 0;
-            ub_beta = inf;
-            
-            if numel(model{currentComponent}) > 1
-                for i = 2:2:numel(model{currentComponent})-1
-                    switch model{currentComponent}{i}
-                        case 'alpha'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_alpha = model{currentComponent}{i+1}(1);
-                                    ub_alpha = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_alpha = model{currentComponent}{i+1}(1);
-                                    ub_alpha = model{currentComponent}{i+1}(2);
-                            end
-                        case 'beta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_beta = model{currentComponent}{i+1}(1);
-                                    ub_beta = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_beta = model{currentComponent}{i+1}(1);
-                                    ub_beta = model{currentComponent}{i+1}(2);
-                            end
-                        case 'theta'
-                            switch numel(model{currentComponent}{i+1})
-                                case 1
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                case 2
-                                    lb_theta(currentComponent) = model{currentComponent}{i+1}(1);
-                                    ub_theta(currentComponent) = model{currentComponent}{i+1}(2);
-                            end
-                    end
-                end
-            end
-            lb                      = [lb lb_alpha lb_beta/kmax];
-            ub                      = [ub ub_alpha ub_beta/kmax];
-    end
-end
-
-if baseline
-    lb_b = -inf;
-    ub_b = inf;
-else
-    lb_b = 0;
-    ub_b = 0;
-end
-lb                              = [lb lb_b];
-ub                              = [ub ub_b];
-            
-lb                              = [lb lb_theta]; 
-ub                              = [ub ub_theta]; 
-
-lb_I0                           = 0;
-ub_I0                           = inf;
-lb                              = [lb lb_I0];
-ub                              = [ub ub_I0];
-
-Aeq                             = zeros(size(lb));
-Aeq(end-nnumber_of_components:end-1)      = 1;
-beq                             = 1;
 
 % Fit model.
 ss                              = inf;
 
-nnumber_of_components                     = numel(model);
 
 for i = 1:number_of_fits
     param0                          = [];
     
     % Generate initial values of parameters.
     ind = 1;
-    for currentComponent = 1:nnumber_of_components
+    for currentComponent = 1:number_of_components
         switch model{currentComponent}{1}
             case 'exponential'
                 Drnd                    = randmeanD(b,I);
@@ -270,7 +91,7 @@ for i = 1:number_of_fits
     brnd                            = min(ub(ind),brnd);
     param0(ind)                     = brnd;
     
-    theta0                          = rand(1,nnumber_of_components);
+    theta0                          = rand(1,number_of_components);
     theta0                          = theta0/sum(theta0); % This can be out of bounds, but will be corrected by the algorithm.
     param0                          = [param0 theta0];
     param0                          = [param0 max(I)*rand()];
@@ -311,24 +132,24 @@ fit.ss                      = ss;
 fit.I0                      = paramhat(end);
 fit.std_I0                  = std(paramhat_MC(:,end),[],1);
 
-theta                       = paramhat(end-nnumber_of_components:end-1);
-theta_MC                    = paramhat_MC(:,end-nnumber_of_components:end-1);
+theta                       = paramhat(end-number_of_components:end-1);
+theta_MC                    = paramhat_MC(:,end-number_of_components:end-1);
 std_theta                   = std(theta_MC,[],1);
 
-fit.components              = cell(nnumber_of_components,1);
-for currentComponent = 1:nnumber_of_components
+fit.components              = cell(number_of_components,1);
+for currentComponent = 1:number_of_components
     fit.components{currentComponent} = struct();
 end
 
 ind                         = 1;
-for currentComponent = 1:nnumber_of_components
+for currentComponent = 1:number_of_components
     
     fit.components{currentComponent}.model       = model{currentComponent}{1};
     
     switch model{currentComponent}{1}
         case 'exponential'
-            D                                               = paramhat(ind) / kmax;
-            D_MC                                            = paramhat_MC(:,ind) / kmax;
+            D                                               = paramhat(ind) / bmax;
+            D_MC                                            = paramhat_MC(:,ind) / bmax;
             
             fit.components{currentComponent}.D              = D;
             fit.components{currentComponent}.std_D          = std(D_MC,[],1);
@@ -356,8 +177,8 @@ for currentComponent = 1:nnumber_of_components
             
             ind                                             = ind + 1;
         case 'stretchedexponential'
-            D                                               = paramhat(ind) / kmax;
-            D_MC                                            = paramhat_MC(:,ind) / kmax;
+            D                                               = paramhat(ind) / bmax;
+            D_MC                                            = paramhat_MC(:,ind) / bmax;
             
             beta                                            = paramhat(ind+1);
             beta_MC                                         = paramhat_MC(:,ind+1);
@@ -392,8 +213,8 @@ for currentComponent = 1:nnumber_of_components
             
             ind                                             = ind + 2;
         case 'lognormal'
-            mu                                              = paramhat(ind) - log(kmax);
-            mu_MC                                           = paramhat_MC(:,ind)- log(kmax);
+            mu                                              = paramhat(ind) - log(bmax);
+            mu_MC                                           = paramhat_MC(:,ind)- log(bmax);
             
             sigma                                           = paramhat(ind+1);
             sigma_MC                                        = paramhat_MC(:,ind+1);
@@ -443,8 +264,8 @@ for currentComponent = 1:nnumber_of_components
             alpha                                           = paramhat(ind);
             alpha_MC                                        = paramhat_MC(:,ind);
             
-            beta                                            = paramhat(ind+1) * kmax;
-            beta_MC                                         = paramhat_MC(:,ind+1) * kmax;
+            beta                                            = paramhat(ind+1) * bmax;
+            beta_MC                                         = paramhat_MC(:,ind+1) * bmax;
                         
             fit.components{currentComponent}.alpha          = alpha;
             fit.components{currentComponent}.std_alpha      = std(alpha_MC,[],1);
