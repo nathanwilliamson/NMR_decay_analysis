@@ -22,8 +22,8 @@ options.ConstraintTolerance = 1e-8;
 % options.TolFun = 1e-8;
 % options.TolX = 1e-8;
 
-% Lower and upper bounds for parameters.
-
+% Bounds and constraints for parameters.
+[lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline)
 
 % Fit model.
 ss                              = inf;

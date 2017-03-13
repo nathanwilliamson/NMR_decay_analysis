@@ -1,4 +1,4 @@
-function [lb, ub, Aeq, beq] = constraints(bmax, model, baseline)
+function [lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline)
 
 lb = [];
 ub = [];
