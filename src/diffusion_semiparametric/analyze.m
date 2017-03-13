@@ -1,6 +1,6 @@
-function fit = analyze(b,I,model,baseline,nFits,nMC)
+function fit = analyze(b, I, model, baseline, number_of_fits, number_of_montecarlo_repetitions)
 
-nComponents                     = numel(model);
+nnumber_of_components                     = numel(model);
 
 % Rescaling for numerical reasons.
 kmax                            = max(b);
@@ -19,10 +19,10 @@ options.TolX                    = 1e-8;
 lb                              = [];
 ub                              = [];
 
-lb_theta                        = zeros(1,nComponents);
-ub_theta                        = ones(1,nComponents);
+lb_theta                        = zeros(1,nnumber_of_components);
+ub_theta                        = ones(1,nnumber_of_components);
 
-for currentComponent = 1:nComponents
+for currentComponent = 1:nnumber_of_components
     switch model{currentComponent}{1}
         case 'exponential'
             lb_D = 0;
@@ -200,20 +200,20 @@ lb                              = [lb lb_I0];
 ub                              = [ub ub_I0];
 
 Aeq                             = zeros(size(lb));
-Aeq(end-nComponents:end-1)      = 1;
+Aeq(end-nnumber_of_components:end-1)      = 1;
 beq                             = 1;
 
 % Fit model.
 ss                              = inf;
 
-nComponents                     = numel(model);
+nnumber_of_components                     = numel(model);
 
-for i = 1:nFits
+for i = 1:number_of_fits
     param0                          = [];
     
     % Generate initial values of parameters.
     ind = 1;
-    for currentComponent = 1:nComponents
+    for currentComponent = 1:nnumber_of_components
         switch model{currentComponent}{1}
             case 'exponential'
                 Drnd                    = randmeanD(b,I);
@@ -270,7 +270,7 @@ for i = 1:nFits
     brnd                            = min(ub(ind),brnd);
     param0(ind)                     = brnd;
     
-    theta0                          = rand(1,nComponents);
+    theta0                          = rand(1,nnumber_of_components);
     theta0                          = theta0/sum(theta0); % This can be out of bounds, but will be corrected by the algorithm.
     param0                          = [param0 theta0];
     param0                          = [param0 max(I)*rand()];
@@ -292,12 +292,12 @@ end
 
 % Error analysis.
 sigma_residual = sqrt(ss/numel(b));
-if nMC < 2
+if number_of_montecarlo_repetitions < 2
     paramhat_MC = nan(size(paramhat));
 else
-    paramhat_MC = zeros(nMC,numel(paramhat));
+    paramhat_MC = zeros(number_of_montecarlo_repetitions,numel(paramhat));
     
-    for i = 1:nMC
+    for i = 1:number_of_montecarlo_repetitions
         disp(i)
         I_MC                        = I + sigma_residual*randn(size(I));
         paramhat_MC(i,:)            = fmincon(@(param)sumofsquares(b,I_MC,model,param),paramhat,[],[],Aeq,beq,lb,ub,[],options);
@@ -311,17 +311,17 @@ fit.ss                      = ss;
 fit.I0                      = paramhat(end);
 fit.std_I0                  = std(paramhat_MC(:,end),[],1);
 
-theta                       = paramhat(end-nComponents:end-1);
-theta_MC                    = paramhat_MC(:,end-nComponents:end-1);
+theta                       = paramhat(end-nnumber_of_components:end-1);
+theta_MC                    = paramhat_MC(:,end-nnumber_of_components:end-1);
 std_theta                   = std(theta_MC,[],1);
 
-fit.components              = cell(nComponents,1);
-for currentComponent = 1:nComponents
+fit.components              = cell(nnumber_of_components,1);
+for currentComponent = 1:nnumber_of_components
     fit.components{currentComponent} = struct();
 end
 
 ind                         = 1;
-for currentComponent = 1:nComponents
+for currentComponent = 1:nnumber_of_components
     
     fit.components{currentComponent}.model       = model{currentComponent}{1};
     
@@ -340,11 +340,11 @@ for currentComponent = 1:nComponents
             
             fit.components{currentComponent}.stdD           = 0;
             fit.components{currentComponent}.std_stdD       = 0;
-            fit.components{currentComponent}.stdD_MC        = zeros(nMC,1);
+            fit.components{currentComponent}.stdD_MC        = zeros(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.spreadD        = 0;
             fit.components{currentComponent}.std_spreadD    = 0;
-            fit.components{currentComponent}.spreadD_MC     = zeros(nMC,1);
+            fit.components{currentComponent}.spreadD_MC     = zeros(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.modeD          = D;
             fit.components{currentComponent}.std_modeD      = std(D_MC,[],1);
@@ -372,19 +372,19 @@ for currentComponent = 1:nComponents
             
             fit.components{currentComponent}.meanD          = nan;
             fit.components{currentComponent}.std_meanD      = nan;
-            fit.components{currentComponent}.meanD_MC       = nan(nMC,1);
+            fit.components{currentComponent}.meanD_MC       = nan(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.stdD           = nan;
             fit.components{currentComponent}.std_stdD       = nan;
-            fit.components{currentComponent}.stdD_MC        = nan(nMC,1);
+            fit.components{currentComponent}.stdD_MC        = nan(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.spreadD        = nan;
             fit.components{currentComponent}.std_spreadD    = nan;
-            fit.components{currentComponent}.spreadD_MC     = nan(nMC,1);
+            fit.components{currentComponent}.spreadD_MC     = nan(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.modeD          = nan;
             fit.components{currentComponent}.std_modeD      = nan;
-            fit.components{currentComponent}.modeD_MC       = nan(nMC,1);
+            fit.components{currentComponent}.modeD_MC       = nan(number_of_montecarlo_repetitions,1);
             
             fit.components{currentComponent}.theta          = theta(currentComponent);
             fit.components{currentComponent}.std_theta      = std_theta(currentComponent);
