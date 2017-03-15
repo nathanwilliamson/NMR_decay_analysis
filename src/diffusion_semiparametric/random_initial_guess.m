@@ -25,7 +25,7 @@ for current_component = 1:number_of_components
             param_guess(ind) = betarnd;
             ind = ind + 1;
         case 'lognormal'
-            Mrnd = randmeanD(b,I);
+            Mrnd = rand_mean_D(b);
             CVrnd = 0.05 + 0.95 * rand();
             
             murnd = log(Mrnd) - 1/2 * log(1 + CVrnd^2);
@@ -40,7 +40,7 @@ for current_component = 1:number_of_components
             param_guess(ind) = sigmarnd;
             ind = ind + 1;
         case 'gamma'
-            Mrnd = randmeanD(b,I);
+            Mrnd = rand_mean_D(b);
             CVrnd = 0.05 + 0.75 * rand();
             
             alpharnd = 1 / CVrnd^2;

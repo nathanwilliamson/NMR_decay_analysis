@@ -19,9 +19,9 @@ RandStream.setGlobalStream(s);
 b = linspace(0, 1e2, 64);
 b = b(:);
 
-I = signal(b, {{'lognormal'}}, [2, 2, 0, 1, 1]);
+I = signal(b, {{'lognormal'}}, [-0.75, 0.5, 1e-2, 1, 1]);
 
-sigma_error = 0.025;
+sigma_error = 0.01;
 I = I + sigma_error * randn(size(I));
 
 %% Model and fit parameters.
@@ -38,7 +38,7 @@ number_of_mc_fits = 3;
 model = {{'lognormal'}};
 
 % Baseline toggle.
-baseline = false;
+baseline = true;
 
 %% Fit model and estimate parameters.
 
@@ -50,4 +50,8 @@ print_results(fit);
 
 %% Plot fit and residuals.
 
-plot_fit_and_residuals(b, I, fit)
+plot_fit_and_residuals(b, I, fit);
+
+%% Plot distribution of D.
+
+plot_distribution(fit);
