@@ -16,11 +16,10 @@ RandStream.setGlobalStream(s);
 
 %% Simulate data set.
 
-b = linspace(0, 1e2, 64);
-I = signal(b, {{'gamma'}}, [2, 2, 0, 1, 1]);
-
+b = linspace(0, 1e2, 8);
 b = b(:);
-I = I(:);
+
+I = signal(b, {{'lognormal'}}, [2, 2, 0, 1, 1]);
 
 sigma_error = 0.025;
 I = I + sigma_error * randn(size(I));
@@ -28,14 +27,15 @@ I = I + sigma_error * randn(size(I));
 %% Model and fit parameters.
 
 % Number of fits (with random initializations).
-number_of_fits = 100;
+number_of_fits = 10;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-number_of_mc_fits = 100;
+number_of_mc_fits = 3;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
-model = {{'gamma'}, {'exponential'}};
+% model = {{'gamma'}, {'exponential'}};
+model = {{'lognormal'}};
 
 % Baseline toggle.
 baseline = false;
@@ -50,3 +50,4 @@ print_results(fit);
 
 %% Plot results.
 
+plot_fits_and_residuals(b, I, fit)

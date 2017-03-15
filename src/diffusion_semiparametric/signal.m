@@ -1,4 +1,4 @@
-function I = signal(b,model,param)
+function I = signal(b, model, param)
 
 I                               = zeros(size(b));
 
@@ -48,7 +48,7 @@ end
 
 I                       = I * I0;
 
-b                       = param(ind);
-I                       = I + b;
+baseline                = param(ind);
+I                       = I + baseline;
 
 end
