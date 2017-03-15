@@ -28,7 +28,7 @@ I = I(:);
 number_of_fits = 10;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-number_of_montecarlo_repetitions = 10;
+number_of_mc_fits = 10;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
@@ -39,4 +39,4 @@ baseline = false;
 
 %% Fit model and estimate parameters.
 
-fit = analyze(b, I, model, baseline, number_of_fits, number_of_montecarlo_repetitions);
+fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits);

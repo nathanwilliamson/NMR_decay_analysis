@@ -1,4 +1,4 @@
-function fit = analyze(b, I, model, baseline, number_of_fits, number_of_montecarlo_repetitions)
+function fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits)
 
 % The number of components in the model (excluding the baseline).
 number_of_components = numel(model);
@@ -7,20 +7,21 @@ number_of_components = numel(model);
 bmax = max(b);
 b = b / bmax;
 
-% Optimization algorithm settings. Current propeties work for Matlab
-% R2017a. Todo: Make optim settings conditional on Matlab version.
+% Optimization algorithm settings. Using optimoptions and setting two sets 
+% of options should make this work for Matlab R2013a and above.
 options = optimoptions('fmincon');
 options.Algorithm = 'sqp';
 options.Display = 'off';
-options.MaxFunctionEvaluations = 10000;
+
+options.MaxFunctionEvaluations = 10000; % Modern settings.
 options.MaxIterations = 1000;
-options.StepTolerance = 1e-8;
 options.OptimalityTolerance = 1e-8;
 options.ConstraintTolerance = 1e-8;
-% options.MaxFunEvals = 10000;
-% options.MaxIter = 1000;
-% options.TolFun = 1e-8;
-% options.TolX = 1e-8;
+
+options.MaxFunEvals = 10000; % Legacy settings.
+options.MaxIter = 1000;
+options.TolFun = 1e-8;
+options.TolX = 1e-8;
 
 % Bounds and constraints for parameters.
 [lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline);
@@ -28,7 +29,7 @@ options.ConstraintTolerance = 1e-8;
 % Fit model.
 ss = inf;
 
-for i = 1:number_of_fits
+for current_fit = 1:number_of_fits
     % Generate initial values of parameters.
     disp('TODO: Move random guessing of initial value to separate routine')
     param_guess = [];
@@ -111,15 +112,15 @@ end
 
 % Error analysis.
 sigma_residual = sqrt(ss/numel(b));
-if number_of_montecarlo_repetitions < 2
+if number_of_mc_fits < 2
     paramhat_MC = nan(size(paramhat));
 else
-    paramhat_MC = zeros(number_of_montecarlo_repetitions,numel(paramhat));
+    paramhat_MC = zeros(number_of_mc_fits,numel(paramhat));
     
-    for i = 1:number_of_montecarlo_repetitions
-        disp(i)
+    for current_fit = 1:number_of_mc_fits
+        disp(current_fit)
         I_MC                        = I + sigma_residual*randn(size(I));
-        paramhat_MC(i,:)            = fmincon(@(param)sumofsquares(b,I_MC,model,param),paramhat,[],[],Aeq,beq,lb,ub,[],options);
+        paramhat_MC(current_fit,:)            = fmincon(@(param)sumofsquares(b,I_MC,model,param),paramhat,[],[],Aeq,beq,lb,ub,[],options);
     end
 end
 
@@ -159,11 +160,11 @@ for currentComponent = 1:number_of_components
             
             fit.components{currentComponent}.stdD           = 0;
             fit.components{currentComponent}.std_stdD       = 0;
-            fit.components{currentComponent}.stdD_MC        = zeros(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.stdD_MC        = zeros(number_of_mc_fits,1);
             
             fit.components{currentComponent}.spreadD        = 0;
             fit.components{currentComponent}.std_spreadD    = 0;
-            fit.components{currentComponent}.spreadD_MC     = zeros(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.spreadD_MC     = zeros(number_of_mc_fits,1);
             
             fit.components{currentComponent}.modeD          = D;
             fit.components{currentComponent}.std_modeD      = std(D_MC,[],1);
@@ -191,19 +192,19 @@ for currentComponent = 1:number_of_components
             
             fit.components{currentComponent}.meanD          = nan;
             fit.components{currentComponent}.std_meanD      = nan;
-            fit.components{currentComponent}.meanD_MC       = nan(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.meanD_MC       = nan(number_of_mc_fits,1);
             
             fit.components{currentComponent}.stdD           = nan;
             fit.components{currentComponent}.std_stdD       = nan;
-            fit.components{currentComponent}.stdD_MC        = nan(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.stdD_MC        = nan(number_of_mc_fits,1);
             
             fit.components{currentComponent}.spreadD        = nan;
             fit.components{currentComponent}.std_spreadD    = nan;
-            fit.components{currentComponent}.spreadD_MC     = nan(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.spreadD_MC     = nan(number_of_mc_fits,1);
             
             fit.components{currentComponent}.modeD          = nan;
             fit.components{currentComponent}.std_modeD      = nan;
-            fit.components{currentComponent}.modeD_MC       = nan(number_of_montecarlo_repetitions,1);
+            fit.components{currentComponent}.modeD_MC       = nan(number_of_mc_fits,1);
             
             fit.components{currentComponent}.theta          = theta(currentComponent);
             fit.components{currentComponent}.std_theta      = std_theta(currentComponent);
