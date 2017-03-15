@@ -16,7 +16,7 @@ RandStream.setGlobalStream(s);
 
 %% Simulate data set.
 
-b = linspace(0, 1e2, 8);
+b = linspace(0, 1e2, 64);
 b = b(:);
 
 I = signal(b, {{'lognormal'}}, [2, 2, 0, 1, 1]);
