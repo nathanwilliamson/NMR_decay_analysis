@@ -4,8 +4,8 @@ number_of_components = numel(model);
 
 param_guess = nan(size(lb));
 ind = 1;
-for currentComponent = 1:number_of_components
-    switch model{currentComponent}{1}
+for current_component = 1:number_of_components
+    switch model{current_component}{1}
         case 'exponential'
             Drnd = randmeanD(b, I);
             Drnd = max(lb(ind), Drnd);

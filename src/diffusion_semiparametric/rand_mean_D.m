@@ -1,4 +1,4 @@
-function val = randmeanD(b,I)
+function val = rand_mean_D(b,I)
 
 Dslope                  = (log(I(1))-log(I(2)))/(b(2)-b(1));
 val                     = 2 * Dslope * rand();
