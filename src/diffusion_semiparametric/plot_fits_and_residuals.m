@@ -24,24 +24,6 @@ hl.LineStyle = 'none';
 
 hl = line(b, fit.Imodel);
 hl.Color = COLORS(1, :);
-%     
-% legendStr = cell(nModels,1);
-% legendEntries = [];
-% for currentModel = 1:nModels
-%     
-%     
-%     if numel(models) == 1
-%         legendStr = models{1}{1};
-%     else
-%         legendStr = [];
-%         for i = 1:numel(models)
-%             legendStr = [legendStr models{i}{1} '+'];
-%         end
-%         legendStr = legendStr(1:end-1);
-%     end
-%     legendEntries(currentModel) = hl;
-% end
-% legend(legendEntries,legendStr)
 
 ax2 = subplot('Position',[0.15 0.20 0.8 0.15]);
 ax2.FontSize = 12;
