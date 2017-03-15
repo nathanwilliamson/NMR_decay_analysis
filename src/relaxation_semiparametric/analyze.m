@@ -3,10 +3,6 @@ function fit = analyze(t, I, model, baseline, number_of_fits, number_of_mc_fits)
 % The number of components in the model (excluding the baseline).
 number_of_components = numel(model);
 
-% Rescaling for numerical stability.
-tmax = t(end);
-t = t / tmax;
-
 % Optimization algorithm settings. Using optimoptions and setting two sets
 % of options should make this work for Matlab R2013a and above.
 fprintf('Setting optimization options...\n');
@@ -26,7 +22,7 @@ options.TolFun = 1e-8;
 options.TolX = 1e-8;
 
 % Bounds and constraints for parameters.
-[lb, ub, Aeq, beq] = bounds_and_constraints(tmax, model, baseline);
+[lb, ub, Aeq, beq] = bounds_and_constraints(model, baseline);
 
 % Fit model.
 ss = inf;

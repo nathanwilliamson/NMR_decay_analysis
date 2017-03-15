@@ -169,14 +169,14 @@ for current_component = 1:number_of_components
 end
 
 if baseline
-    lb_b = -inf;
-    ub_b = inf;
+    lb_baseline = -inf;
+    ub_baseline = inf;
 else
-    lb_b = 0;
-    ub_b = 0;
+    lb_baseline = 0;
+    ub_baseline = 0;
 end
-lb = [lb lb_b];
-ub = [ub ub_b];
+lb = [lb lb_baseline];
+ub = [ub ub_baseline];
             
 lb = [lb lb_theta]; 
 ub = [ub ub_theta]; 
