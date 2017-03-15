@@ -40,3 +40,7 @@ baseline = false;
 %% Fit model and estimate parameters.
 
 fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits);
+
+%% Print out results.
+
+print_results(fit)

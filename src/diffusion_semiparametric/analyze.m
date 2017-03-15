@@ -9,6 +9,8 @@ b = b / bmax;
 
 % Optimization algorithm settings. Using optimoptions and setting two sets
 % of options should make this work for Matlab R2013a and above.
+fprintf('Setting optimization options...\n');
+
 options = optimoptions('fmincon');
 options.Algorithm = 'sqp';
 options.Display = 'off';
@@ -28,8 +30,10 @@ options.TolX = 1e-8;
 
 % Fit model.
 ss = inf;
-
+fprintf('Fitting...\n');
 for current_fit = 1:number_of_fits
+    fprintf('   Fit %d out of %d...\n', current_fit, number_of_fits);
+    
     % Generate initial values of parameters.
     param_guess = random_initial_guess(model, lb, ub, b, I);
     
@@ -53,15 +57,16 @@ if number_of_mc_fits < 2
     paramhat_MC = nan(size(paramhat));
 else
     paramhat_MC = zeros(number_of_mc_fits, numel(paramhat));
-    
+    fprintf('Error analysis...\n');
     for current_fit = 1:number_of_mc_fits
-        disp(current_fit)
+        fprintf('   Fit %d out of %d...\n', current_fit, number_of_mc_fits);
         I_MC = I + sigma_residual * randn(size(I));
         paramhat_MC(current_fit, :) = fmincon(@(param)sumofsquares(b, I_MC, model, param), paramhat, [], [], Aeq, beq, lb, ub, [], options);
     end
 end
 
 % Structure output.
+fprintf('Create output...\n');
 fit = struct();
 fit.ss = ss;
 
@@ -254,5 +259,7 @@ fit.Imodel = Imodel;
 fit.residuals = I - Imodel;
 
 fit.paramhat_MC = paramhat_MC;
+
+fprintf('Done.\n');
 
 end
