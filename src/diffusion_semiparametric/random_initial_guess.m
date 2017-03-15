@@ -1,4 +1,4 @@
-function param_guess = initial_guess( input_args )
+function param_guess = random_initial_guess( input_args )
 
 param_guess = [];
 ind = 1;
