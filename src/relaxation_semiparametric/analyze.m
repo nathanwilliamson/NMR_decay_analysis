@@ -1,11 +1,11 @@
-function fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits)
+function fit = analyze(t, I, model, baseline, number_of_fits, number_of_mc_fits)
 
 % The number of components in the model (excluding the baseline).
 number_of_components = numel(model);
 
 % Rescaling for numerical stability.
-bmax = max(b);
-b = b / bmax;
+tmax = t(end);
+t = t / tmax;
 
 % Optimization algorithm settings. Using optimoptions and setting two sets
 % of options should make this work for Matlab R2013a and above.
@@ -26,7 +26,7 @@ options.TolFun = 1e-8;
 options.TolX = 1e-8;
 
 % Bounds and constraints for parameters.
-[lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline);
+[lb, ub, Aeq, beq] = bounds_and_constraints(tmax, model, baseline);
 
 % Fit model.
 ss = inf;
@@ -89,8 +89,8 @@ for current_component = 1:number_of_components
     
     switch model{current_component}{1}
         case 'exponential'
-            D = paramhat(ind) / bmax;
-            D_MC = paramhat_MC(:, ind) / bmax;
+            D = paramhat(ind) / tmax;
+            D_MC = paramhat_MC(:, ind) / tmax;
             
             fit.components{current_component}.D = D;
             fit.components{current_component}.std_D = std(D_MC, [], 1);
@@ -118,8 +118,8 @@ for current_component = 1:number_of_components
             
             ind = ind + 1;
         case 'stretchedexponential'
-            D = paramhat(ind) / bmax;
-            D_MC = paramhat_MC(:, ind) / bmax;
+            D = paramhat(ind) / tmax;
+            D_MC = paramhat_MC(:, ind) / tmax;
             
             beta = paramhat(ind + 1);
             beta_MC = paramhat_MC(:, ind + 1);
@@ -154,8 +154,8 @@ for current_component = 1:number_of_components
             
             ind = ind + 2;
         case 'lognormal'
-            mu = paramhat(ind) - log(bmax);
-            mu_MC = paramhat_MC(:, ind) - log(bmax);
+            mu = paramhat(ind) - log(tmax);
+            mu_MC = paramhat_MC(:, ind) - log(tmax);
             
             sigma = paramhat(ind + 1);
             sigma_MC = paramhat_MC(:, ind + 1);
@@ -205,8 +205,8 @@ for current_component = 1:number_of_components
             alpha = paramhat(ind);
             alpha_MC = paramhat_MC(:, ind);
             
-            beta = paramhat(ind + 1) * bmax;
-            beta_MC = paramhat_MC(:, ind + 1) * bmax;
+            beta = paramhat(ind + 1) * tmax;
+            beta_MC = paramhat_MC(:, ind + 1) * tmax;
             
             fit.components{current_component}.alpha = alpha;
             fit.components{current_component}.std_alpha = std(alpha_MC, [], 1);

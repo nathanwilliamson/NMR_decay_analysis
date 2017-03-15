@@ -1,4 +1,4 @@
-function [lb, ub, Aeq, beq] = bounds_and_constraints(bmax, model, baseline)
+function [lb, ub, Aeq, beq] = bounds_and_constraints(model, baseline)
 
 % The number of components in the model (excluding the baseline).
 number_of_components = numel(model);
@@ -12,20 +12,20 @@ ub_theta = ones(1, number_of_components);
 for current_component = 1:number_of_components
     switch model{current_component}{1}
         case 'exponential'
-            lb_D = 0;
-            ub_D = inf;
+            lb_T = 0;
+            ub_T = inf;
             
             if numel(model{current_component}) > 1
                 for i = 2:2:numel(model{current_component})-1
                     switch model{current_component}{i}
-                        case 'D'
+                        case 'T'
                             switch numel(model{current_component}{i+1})
                                 case 1
-                                    lb_D = model{current_component}{i+1}(1);
-                                    ub_D = model{current_component}{i+1}(1);
+                                    lb_T = model{current_component}{i+1}(1);
+                                    ub_T = model{current_component}{i+1}(1);
                                 case 2
-                                    lb_D = model{current_component}{i+1}(1);
-                                    ub_D = model{current_component}{i+1}(2);
+                                    lb_T = model{current_component}{i+1}(1);
+                                    ub_T = model{current_component}{i+1}(2);
                             end
                         case 'theta'
                             switch numel(model{current_component}{i+1})
@@ -39,25 +39,25 @@ for current_component = 1:number_of_components
                     end
                 end
             end
-            lb = [lb lb_D*bmax];
-            ub = [ub ub_D*bmax];
+            lb = [lb, lb_T];
+            ub = [ub, ub_T];
         case 'stretchedexponential'
-            lb_D = 0;
-            ub_D = inf;
+            lb_T = 0;
+            ub_T = inf;
             lb_beta = 0;
             ub_beta = 1;
             
             if numel(model{current_component}) > 1
                 for i = 2:2:numel(model{current_component})-1
                     switch model{current_component}{i}
-                        case 'D'
+                        case 'T'
                             switch numel(model{current_component}{i+1})
                                 case 1
-                                    lb_D = model{current_component}{i+1}(1);
-                                    ub_D = model{current_component}{i+1}(1);
+                                    lb_T = model{current_component}{i+1}(1);
+                                    ub_T = model{current_component}{i+1}(1);
                                 case 2
-                                    lb_D = model{current_component}{i+1}(1);
-                                    ub_D = model{current_component}{i+1}(2);
+                                    lb_T = model{current_component}{i+1}(1);
+                                    ub_T = model{current_component}{i+1}(2);
                             end
                         case 'beta'
                             switch numel(model{current_component}{i+1})
@@ -80,13 +80,13 @@ for current_component = 1:number_of_components
                     end
                 end
             end
-            lb = [lb lb_D*bmax lb_beta];
-            ub = [ub ub_D*bmax ub_beta];
+            lb = [lb, lb_T, lb_beta];
+            ub = [ub, ub_T, ub_beta];
         case 'lognormal'
             cv_min = 0.01;
             lb_mu = -inf;
             ub_mu = inf;
-            lb_sigma = sqrt(log(1+cv_min^2));
+            lb_sigma = sqrt(log(1 + cv_min^2));
             ub_sigma = inf;
             
             if numel(model{current_component}) > 1
@@ -122,9 +122,9 @@ for current_component = 1:number_of_components
                     end
                 end
             end
-            lb = [lb lb_mu+log(bmax) lb_sigma];
-            ub = [ub ub_mu+log(bmax) ub_sigma];
-        case 'gamma'
+            lb = [lb, lb_mu, lb_sigma];
+            ub = [ub, ub_mu, ub_sigma];
+        case 'inversegamma'
             lb_alpha = 2;
             ub_alpha = inf;
             lb_beta = 0;
@@ -163,20 +163,20 @@ for current_component = 1:number_of_components
                     end
                 end
             end
-            lb = [lb lb_alpha lb_beta/bmax];
-            ub = [ub ub_alpha ub_beta/bmax];
+            lb = [lb, lb_alpha, lb_beta];
+            ub = [ub, ub_alpha, ub_beta];
     end
 end
 
 if baseline
-    lb_b = -inf;
-    ub_b = inf;
+    lb_baseline = -inf;
+    ub_baseline = inf;
 else
-    lb_b = 0;
-    ub_b = 0;
+    lb_baseline = 0;
+    ub_baseline = 0;
 end
-lb = [lb lb_b];
-ub = [ub ub_b];
+lb = [lb lb_baseline];
+ub = [ub ub_baseline];
             
 lb = [lb lb_theta]; 
 ub = [ub ub_theta]; 

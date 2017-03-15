@@ -1,6 +1,6 @@
-function val = sumofsquares(b, I, type, param)
+function val = sumofsquares(t, I, type, param)
 
-Imodel = signal(b, type, param);
+Imodel = signal(t, type, param);
 
 val = sum( (I - Imodel).^2 );
 
