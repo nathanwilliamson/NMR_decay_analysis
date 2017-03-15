@@ -6,7 +6,7 @@ close all hidden
 
 %% Path to subroutines.
 
-addpath('diffusion_semiparametric');
+addpath('relaxation_semiparametric');
 
 %% Random stream.
 
