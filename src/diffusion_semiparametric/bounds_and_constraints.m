@@ -125,7 +125,7 @@ for current_component = 1:number_of_components
             lb = [lb lb_mu+log(bmax) lb_sigma];
             ub = [ub ub_mu+log(bmax) ub_sigma];
         case 'gamma'
-            lb_alpha = 2;
+            lb_alpha = 1;
             ub_alpha = inf;
             lb_beta = 0;
             ub_beta = inf;
