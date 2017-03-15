@@ -48,6 +48,6 @@ fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits);
 
 print_results(fit);
 
-%% Plot results.
+%% Plot fit and residuals.
 
-plot_fits_and_residuals(b, I, fit)
+plot_fit_and_residuals(b, I, fit)

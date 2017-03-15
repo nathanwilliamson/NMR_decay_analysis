@@ -1,4 +1,4 @@
-function [] = plot_fits_and_residuals(b, I, fit)
+function [] = plot_fit_and_residuals(b, I, fit)
 
 COLORS = get(groot, 'DefaultAxesColorOrder');
 

@@ -7,13 +7,13 @@ ind = 1;
 for current_component = 1:number_of_components
     switch model{current_component}{1}
         case 'exponential'
-            Drnd = randmeanD(b, I);
+            Drnd = rand_mean_D(b);
             Drnd = max(lb(ind), Drnd);
             Drnd = min(ub(ind), Drnd);
             param_guess(ind) = Drnd;
             ind = ind + 1;
         case 'stretchedexponential'
-            Drnd = randmeanD(b, I);
+            Drnd = rand_mean_D(b);
             Drnd = max(lb(ind), Drnd);
             Drnd = min(ub(ind), Drnd);
             param_guess(ind) = Drnd;
