@@ -17,16 +17,16 @@ for currentComponent = 1:numel(fit.components)
     
     switch fit.components{currentComponent}.model
         case 'exponential'
-            disp('Decay model:          I(b) = exp(-b*D)')
+            disp('Decay model:          I(t) = exp(-t/T)')
             disp('')
-            disp('Distribution model:   f(D) = delta(D-D0)')
+            disp('Distribution model:   f(T) = delta(T-T0)')
             disp('----------------------------------------------------------------------------------------------');
             
-            value = fit.components{currentComponent}.D;
-            stddev = fit.components{currentComponent}.std_D;
-            ci = [ fit.components{currentComponent}.D - 1.960*fit.components{currentComponent}.std_D , ...
-                fit.components{currentComponent}.D + 1.960*fit.components{currentComponent}.std_D];
-            disp('D')
+            value = fit.components{currentComponent}.T;
+            stddev = fit.components{currentComponent}.std_T;
+            ci = [ fit.components{currentComponent}.T - 1.960*fit.components{currentComponent}.std_T , ...
+                fit.components{currentComponent}.T + 1.960*fit.components{currentComponent}.std_T];
+            disp('T')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
@@ -40,16 +40,16 @@ for currentComponent = 1:numel(fit.components)
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
         case 'stretchedexponential'
-            disp('Decay model:          I(b) = exp(-(b*D)^beta)')
+            disp('Decay model:          I(t) = exp(-(t/T)^beta)')
             disp('')
-            disp('Distribution model:   f(D) unknown')
+            disp('Distribution model:   f(T) unknown')
             disp('----------------------------------------------------------------------------------------------');
             
-            value = fit.components{currentComponent}.D;
-            stddev = fit.components{currentComponent}.std_D;
-            ci = [ fit.components{currentComponent}.D - 1.960*fit.components{currentComponent}.std_D , ...
-                fit.components{currentComponent}.D + 1.960*fit.components{currentComponent}.std_D];
-            disp('D')
+            value = fit.components{currentComponent}.T;
+            stddev = fit.components{currentComponent}.std_T;
+            ci = [ fit.components{currentComponent}.T - 1.960*fit.components{currentComponent}.std_T , ...
+                fit.components{currentComponent}.T + 1.960*fit.components{currentComponent}.std_T];
+            disp('T')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
@@ -72,9 +72,9 @@ for currentComponent = 1:numel(fit.components)
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
         case 'lognormal'
-            disp('Decay model:          I(b) = integral(f(D),0,inf) (numerical approx.)')
+            disp('Decay model:          I(t) = integral(f(T),0,inf) (numerical approx.)')
             disp('')
-            disp('Distribution model:   f(D) = 1/(D*sigma*sqrt(2*pi))*exp(-(log(D)-mu)^2/(2*sigma^2))')
+            disp('Distribution model:   f(T) = 1/(T*sigma*sqrt(2*pi))*exp(-(log(T)-mu)^2/(2*sigma^2))')
             disp('----------------------------------------------------------------------------------------------');
             
             value = fit.components{currentComponent}.mu;
@@ -95,38 +95,38 @@ for currentComponent = 1:numel(fit.components)
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.meanD;
-            stddev = fit.components{currentComponent}.std_meanD;
-            ci = [ fit.components{currentComponent}.meanD - 1.960*fit.components{currentComponent}.std_meanD , ...
-                fit.components{currentComponent}.meanD + 1.960*fit.components{currentComponent}.std_meanD];
-            disp('meanD')
+            value = fit.components{currentComponent}.meanT;
+            stddev = fit.components{currentComponent}.std_meanT;
+            ci = [ fit.components{currentComponent}.meanT - 1.960*fit.components{currentComponent}.std_meanT , ...
+                fit.components{currentComponent}.meanT + 1.960*fit.components{currentComponent}.std_meanT];
+            disp('meanT')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.stdD;
-            stddev = fit.components{currentComponent}.std_stdD;
-            ci = [ fit.components{currentComponent}.stdD - 1.960*fit.components{currentComponent}.std_stdD , ...
-                fit.components{currentComponent}.stdD + 1.960*fit.components{currentComponent}.std_stdD];
-            disp('stdD')
+            value = fit.components{currentComponent}.stdT;
+            stddev = fit.components{currentComponent}.std_stdT;
+            ci = [ fit.components{currentComponent}.stdT - 1.960*fit.components{currentComponent}.std_stdT , ...
+                fit.components{currentComponent}.stdT + 1.960*fit.components{currentComponent}.std_stdT];
+            disp('stdT')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.spreadD;
-            stddev = fit.components{currentComponent}.std_spreadD;
-            ci = [ fit.components{currentComponent}.spreadD - 1.960*fit.components{currentComponent}.std_spreadD , ...
-                fit.components{currentComponent}.spreadD + 1.960*fit.components{currentComponent}.std_spreadD];
-            disp('spreadD (stdD/meanD, coefficient of variation)')
+            value = fit.components{currentComponent}.spreadT;
+            stddev = fit.components{currentComponent}.std_spreadT;
+            ci = [ fit.components{currentComponent}.spreadT - 1.960*fit.components{currentComponent}.std_spreadT , ...
+                fit.components{currentComponent}.spreadT + 1.960*fit.components{currentComponent}.std_spreadT];
+            disp('spreadT (stdT/meanT, coefficient of variation)')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.modeD;
-            stddev = fit.components{currentComponent}.std_modeD;
-            ci = [ fit.components{currentComponent}.modeD - 1.960*fit.components{currentComponent}.std_modeD , ...
-                fit.components{currentComponent}.modeD + 1.960*fit.components{currentComponent}.std_modeD];
-            disp('modeD (peak of distribution)')
+            value = fit.components{currentComponent}.modeT;
+            stddev = fit.components{currentComponent}.std_modeT;
+            ci = [ fit.components{currentComponent}.modeT - 1.960*fit.components{currentComponent}.std_modeT , ...
+                fit.components{currentComponent}.modeT + 1.960*fit.components{currentComponent}.std_modeT];
+            disp('modeT (peak of distribution)')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
@@ -139,10 +139,10 @@ for currentComponent = 1:numel(fit.components)
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
-        case 'gamma'
-            disp('Decay model:          I(b) = (beta/(beta+b))^alpha')
+        case 'inversegamma'
+            disp('Decay model:          I(t) = (beta/(beta+t))^alpha')
             disp('')
-            disp('Distribution model:   f(D) = beta^alpha/gamma(alpha)*D^(alpha-1)*exp(-beta*D)')
+            disp('Distribution model:   f(T) = beta^alpha/gamma(alpha)*T^(-alpha-1)*exp(-beta/T)')
             disp('----------------------------------------------------------------------------------------------');
             
             value = fit.components{currentComponent}.alpha;
@@ -163,38 +163,38 @@ for currentComponent = 1:numel(fit.components)
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.meanD;
-            stddev = fit.components{currentComponent}.std_meanD;
-            ci = [ fit.components{currentComponent}.meanD - 1.960*fit.components{currentComponent}.std_meanD , ...
-                fit.components{currentComponent}.meanD + 1.960*fit.components{currentComponent}.std_meanD];
-            disp('meanD')
+            value = fit.components{currentComponent}.meanT;
+            stddev = fit.components{currentComponent}.std_meanT;
+            ci = [ fit.components{currentComponent}.meanT - 1.960*fit.components{currentComponent}.std_meanT , ...
+                fit.components{currentComponent}.meanT + 1.960*fit.components{currentComponent}.std_meanT];
+            disp('meanT')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.stdD;
-            stddev = fit.components{currentComponent}.std_stdD;
-            ci = [ fit.components{currentComponent}.stdD - 1.960*fit.components{currentComponent}.std_stdD , ...
-                fit.components{currentComponent}.stdD + 1.960*fit.components{currentComponent}.std_stdD];
-            disp('stdD')
+            value = fit.components{currentComponent}.stdT;
+            stddev = fit.components{currentComponent}.std_stdT;
+            ci = [ fit.components{currentComponent}.stdT - 1.960*fit.components{currentComponent}.std_stdT , ...
+                fit.components{currentComponent}.stdT + 1.960*fit.components{currentComponent}.std_stdT];
+            disp('stdT')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.spreadD;
-            stddev = fit.components{currentComponent}.std_spreadD;
-            ci = [ fit.components{currentComponent}.spreadD - 1.960*fit.components{currentComponent}.std_spreadD , ...
-                fit.components{currentComponent}.spreadD + 1.960*fit.components{currentComponent}.std_spreadD];
-            disp('spreadD (stdD/meanD, coefficient of variation)')
+            value = fit.components{currentComponent}.spreadT;
+            stddev = fit.components{currentComponent}.std_spreadT;
+            ci = [ fit.components{currentComponent}.spreadT - 1.960*fit.components{currentComponent}.std_spreadT , ...
+                fit.components{currentComponent}.spreadT + 1.960*fit.components{currentComponent}.std_spreadT];
+            disp('spreadT (stdT/meanT, coefficient of variation)')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
             
-            value = fit.components{currentComponent}.modeD;
-            stddev = fit.components{currentComponent}.std_modeD;
-            ci = [ fit.components{currentComponent}.modeD - 1.960*fit.components{currentComponent}.std_modeD , ...
-                fit.components{currentComponent}.modeD + 1.960*fit.components{currentComponent}.std_modeD];
-            disp('modeD (peak of distribution)')
+            value = fit.components{currentComponent}.modeT;
+            stddev = fit.components{currentComponent}.std_modeT;
+            ci = [ fit.components{currentComponent}.modeT - 1.960*fit.components{currentComponent}.std_modeT , ...
+                fit.components{currentComponent}.modeT + 1.960*fit.components{currentComponent}.std_modeT];
+            disp('modeT (peak of distribution)')
             disp(['      - Value:                   ' num2str(value)])
             disp(['      - Std:                     ' num2str(stddev)])
             disp(['      - 95 % CI:                 ' '[' num2str(ci(1)) ', ' num2str(ci(2)) ']'])
