@@ -1,7 +1,8 @@
 function [] = print_results(fit)
 
-disp('RESULTS ')
-disp('==============================================================');
+disp('==============================================================================================');
+disp('Results')
+disp('==============================================================================================');
 disp('')
 disp(['Fit (residual sum of squares):   ' num2str(fit.ss)])
 disp('')
@@ -10,7 +11,7 @@ disp('')
 disp(['baseline:                        ' num2str(fit.baseline)])
 disp('')
 for currentComponent = 1:numel(fit.components)
-    disp('--------------------------------------------------------------');
+    disp('----------------------------------------------------------------------------------------------');
     disp(['Component ' num2str(currentComponent) ': ' fit.components{currentComponent}.model])
     disp('')
     
@@ -19,7 +20,7 @@ for currentComponent = 1:numel(fit.components)
             disp('Decay model:          I(b) = exp(-b*D)')
             disp('')
             disp('Distribution model:   f(D) = delta(D-D0)')
-            disp('--------------------------------------------------------------')
+            disp('----------------------------------------------------------------------------------------------');
             
             value               = fit.components{currentComponent}.D;
             stddev              = fit.components{currentComponent}.std_D;
@@ -42,7 +43,7 @@ for currentComponent = 1:numel(fit.components)
             disp('Decay model:          I(b) = exp(-(b*D)^beta)')
             disp('')
             disp('Distribution model:   f(D) unknown')
-            disp('--------------------------------------------------------------')
+            disp('----------------------------------------------------------------------------------------------');
             
             value               = fit.components{currentComponent}.D;
             stddev              = fit.components{currentComponent}.std_D;
@@ -74,7 +75,7 @@ for currentComponent = 1:numel(fit.components)
             disp('Decay model:          I(b) = integral(f(D),0,inf) (numerical approx.)')
             disp('')
             disp('Distribution model:   f(D) = 1/(D*sigma*sqrt(2*pi))*exp(-(log(D)-mu)^2/(2*sigma^2))')
-            disp('--------------------------------------------------------------')
+            disp('----------------------------------------------------------------------------------------------');
             
             value               = fit.components{currentComponent}.mu;
             stddev              = fit.components{currentComponent}.std_mu;
@@ -142,7 +143,7 @@ for currentComponent = 1:numel(fit.components)
             disp('Decay model:          I(b) = (beta/(beta+b))^alpha')
             disp('')
             disp('Distribution model:   f(D) = beta^alpha/gamma(alpha)*D^(alpha-1)*exp(-beta*D)')
-            disp('--------------------------------------------------------------')
+            disp('----------------------------------------------------------------------------------------------');
             
             value               = fit.components{currentComponent}.alpha;
             stddev              = fit.components{currentComponent}.std_alpha;

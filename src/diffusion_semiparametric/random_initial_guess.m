@@ -64,7 +64,7 @@ ind = ind + 1;
 
 theta0 = rand(1, number_of_components);
 theta0 = theta0 / sum(theta0); % This could be out of bounds, but will be corrected by the algorithm.
-param_guess(ind:ind+number_of_components) = theta0;
+param_guess(ind:ind+number_of_components-1) = theta0;
 param_guess(end) = 1.25 * max(I) * rand();
 
 end

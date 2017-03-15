@@ -11,7 +11,7 @@ addpath('diffusion_semiparametric');
 %% Random stream.
 
 random_seed = round( sum( 1e6 * clock() ) );
-s = RandStream('mt19937ar','Seed',random_seed);
+s = RandStream('mt19937ar', 'Seed', random_seed);
 RandStream.setGlobalStream(s);
 
 %% Simulate data set.
@@ -22,17 +22,20 @@ I = signal(b, {{'gamma'}}, [2, 2, 0, 1, 1]);
 b = b(:);
 I = I(:);
 
+sigma_error = 0.025;
+I = I + sigma_error * randn(size(I));
+
 %% Model and fit parameters.
 
 % Number of fits (with random initializations).
-number_of_fits = 10;
+number_of_fits = 100;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-number_of_mc_fits = 10;
+number_of_mc_fits = 100;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
-model = {{'lognormal'}};
+model = {{'gamma'}, {'exponential'}};
 
 % Baseline toggle.
 baseline = false;
@@ -41,6 +44,9 @@ baseline = false;
 
 fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits);
 
-%% Print out results.
+%% Print results.
 
-print_results(fit)
+print_results(fit);
+
+%% Plot results.
+
