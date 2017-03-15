@@ -22,7 +22,7 @@ options.TolFun = 1e-8;
 options.TolX = 1e-8;
 
 % Bounds and constraints for parameters.
-[lb, ub, Aeq, beq] = bounds_and_constraints(model, baseline);
+[lb, ub, Aeq, beq] = bounds_and_constraints(model, baseline)
 
 % Fit model.
 ss = inf;
@@ -31,7 +31,7 @@ for current_fit = 1:number_of_fits
     fprintf('   Fit %d out of %d...\n', current_fit, number_of_fits);
     
     % Generate initial values of parameters.
-    param_guess = random_initial_guess(model, lb, ub, b, I);
+    param_guess = random_initial_guess(model, lb, ub, t, I)
     
     % Fit model.
     paramhat_ = fmincon(@(param)sumofsquares(t, I, model, param), param_guess, [], [], Aeq, beq, lb, ub, [], options);

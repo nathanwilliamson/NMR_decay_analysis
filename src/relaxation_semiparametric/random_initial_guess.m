@@ -39,7 +39,7 @@ for current_component = 1:number_of_components
             sigmarnd = min(ub(ind), sigmarnd);
             param_guess(ind) = sigmarnd;
             ind = ind + 1;
-        case 'gamma'
+        case 'inversegamma'
             Mrnd = rand_mean_T(t);
             CVrnd = 0.05 + 0.75 * rand();
             

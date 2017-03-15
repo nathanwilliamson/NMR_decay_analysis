@@ -42,7 +42,7 @@ for current_component = 1:number_of_components
             beta = param(ind+1);
             ind = ind + 2;
             
-            I = I + theta(current_component) * (beta ./ (beta + b)).^alpha;
+            I = I + theta(current_component) * (beta ./ (beta + t)).^alpha;
     end
 end
 

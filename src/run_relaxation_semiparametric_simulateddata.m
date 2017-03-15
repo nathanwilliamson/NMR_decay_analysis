@@ -16,12 +16,12 @@ RandStream.setGlobalStream(s);
 
 %% Simulate data set.
 
-b = linspace(0, 1e2, 64);
-b = b(:);
+t = linspace(0, 1e2, 64);
+t = t(:);
 
-I = signal(b, {{'lognormal'}}, [-0.75, 0.5, 1e-2, 1, 1]);
+I = signal(t, {{'lognormal'}}, [-0.75, 0.5, 1e-2, 1, 1]);
 
-sigma_error = 0.01;
+sigma_error = 0.0;
 I = I + sigma_error * randn(size(I));
 
 %% Model and fit parameters.
@@ -34,16 +34,16 @@ number_of_mc_fits = 0;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
-% model = {{'gamma'}, {'exponential'}};
+% model = {{'inversegamma'}, {'exponential'}};
 % model = {{'lognormal'}};
-model = {{'gamma'}};
+model = {{'inversegamma'}};
 
 % Baseline toggle.
 baseline = true;
 
 %% Fit model and estimate parameters.
 
-fit = analyze(b, I, model, baseline, number_of_fits, number_of_mc_fits);
+fit = analyze(t, I, model, baseline, number_of_fits, number_of_mc_fits);
 
 %% Print results.
 
@@ -51,8 +51,8 @@ print_results(fit);
 
 %% Plot fit and residuals.
 
-plot_fit_and_residuals(b, I, fit);
+plot_fit_and_residuals(t, I, fit);
 
-%% Plot distribution of D.
+%% Plot distribution of T.
 
 plot_distribution(fit);
