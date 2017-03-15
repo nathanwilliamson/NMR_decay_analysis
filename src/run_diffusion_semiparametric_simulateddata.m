@@ -27,15 +27,15 @@ I = I + sigma_error * randn(size(I));
 %% Model and fit parameters.
 
 % Number of fits (with random initializations).
-number_of_fits = 10;
+number_of_fits = 100;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-number_of_mc_fits = 3;
+number_of_mc_fits = 0;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
-% model = {{'gamma'}, {'exponential'}};
-model = {{'lognormal'}};
+model = {{'gamma'}, {'exponential'}};
+% model = {{'lognormal'}};
 
 % Baseline toggle.
 baseline = true;
