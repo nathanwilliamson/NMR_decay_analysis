@@ -78,43 +78,43 @@ theta_MC = paramhat_MC(:, end-number_of_components:end-1);
 std_theta = std(theta_MC, [], 1);
 
 fit.components = cell(number_of_components, 1);
-for currentComponent = 1:number_of_components
-    fit.components{currentComponent} = struct();
+for current_component = 1:number_of_components
+    fit.components{current_component} = struct();
 end
 
 ind = 1;
-for currentComponent = 1:number_of_components
+for current_component = 1:number_of_components
     
-    fit.components{currentComponent}.model = model{currentComponent}{1};
+    fit.components{current_component}.model = model{current_component}{1};
     
-    switch model{currentComponent}{1}
+    switch model{current_component}{1}
         case 'exponential'
             D = paramhat(ind) / bmax;
             D_MC = paramhat_MC(:, ind) / bmax;
             
-            fit.components{currentComponent}.D = D;
-            fit.components{currentComponent}.std_D = std(D_MC, [], 1);
-            fit.components{currentComponent}.D_MC = D_MC;
+            fit.components{current_component}.D = D;
+            fit.components{current_component}.std_D = std(D_MC, [], 1);
+            fit.components{current_component}.D_MC = D_MC;
             
-            fit.components{currentComponent}.meanD = D;
-            fit.components{currentComponent}.std_meanD = std(D_MC, [], 1);
-            fit.components{currentComponent}.meanD_MC = D_MC;
+            fit.components{current_component}.meanD = D;
+            fit.components{current_component}.std_meanD = std(D_MC, [], 1);
+            fit.components{current_component}.meanD_MC = D_MC;
             
-            fit.components{currentComponent}.stdD = 0;
-            fit.components{currentComponent}.std_stdD = 0;
-            fit.components{currentComponent}.stdD_MC = zeros(number_of_mc_fits, 1);
+            fit.components{current_component}.stdD = 0;
+            fit.components{current_component}.std_stdD = 0;
+            fit.components{current_component}.stdD_MC = zeros(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.spreadD = 0;
-            fit.components{currentComponent}.std_spreadD = 0;
-            fit.components{currentComponent}.spreadD_MC = zeros(number_of_mc_fits, 1);
+            fit.components{current_component}.spreadD = 0;
+            fit.components{current_component}.std_spreadD = 0;
+            fit.components{current_component}.spreadD_MC = zeros(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.modeD = D;
-            fit.components{currentComponent}.std_modeD = std(D_MC, [], 1);
-            fit.components{currentComponent}.modeD_MC = D_MC;
+            fit.components{current_component}.modeD = D;
+            fit.components{current_component}.std_modeD = std(D_MC, [], 1);
+            fit.components{current_component}.modeD_MC = D_MC;
             
-            fit.components{currentComponent}.theta = theta(currentComponent);
-            fit.components{currentComponent}.std_theta = std_theta(currentComponent);
-            fit.components{currentComponent}.theta_MC = theta_MC(:, currentComponent);
+            fit.components{current_component}.theta = theta(current_component);
+            fit.components{current_component}.std_theta = std_theta(current_component);
+            fit.components{current_component}.theta_MC = theta_MC(:, current_component);
             
             ind = ind + 1;
         case 'stretchedexponential'
@@ -124,33 +124,33 @@ for currentComponent = 1:number_of_components
             beta = paramhat(ind + 1);
             beta_MC = paramhat_MC(:, ind + 1);
             
-            fit.components{currentComponent}.D = D;
-            fit.components{currentComponent}.std_D = std(D_MC, [], 1);
-            fit.components{currentComponent}.D_MC = D_MC;
+            fit.components{current_component}.D = D;
+            fit.components{current_component}.std_D = std(D_MC, [], 1);
+            fit.components{current_component}.D_MC = D_MC;
             
-            fit.components{currentComponent}.beta = beta;
-            fit.components{currentComponent}.std_beta = std(beta_MC, [], 1);
-            fit.components{currentComponent}.beta_MC = beta_MC;
+            fit.components{current_component}.beta = beta;
+            fit.components{current_component}.std_beta = std(beta_MC, [], 1);
+            fit.components{current_component}.beta_MC = beta_MC;
             
-            fit.components{currentComponent}.meanD = nan;
-            fit.components{currentComponent}.std_meanD = nan;
-            fit.components{currentComponent}.meanD_MC = nan(number_of_mc_fits, 1);
+            fit.components{current_component}.meanD = nan;
+            fit.components{current_component}.std_meanD = nan;
+            fit.components{current_component}.meanD_MC = nan(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.stdD = nan;
-            fit.components{currentComponent}.std_stdD = nan;
-            fit.components{currentComponent}.stdD_MC = nan(number_of_mc_fits, 1);
+            fit.components{current_component}.stdD = nan;
+            fit.components{current_component}.std_stdD = nan;
+            fit.components{current_component}.stdD_MC = nan(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.spreadD = nan;
-            fit.components{currentComponent}.std_spreadD = nan;
-            fit.components{currentComponent}.spreadD_MC = nan(number_of_mc_fits, 1);
+            fit.components{current_component}.spreadD = nan;
+            fit.components{current_component}.std_spreadD = nan;
+            fit.components{current_component}.spreadD_MC = nan(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.modeD = nan;
-            fit.components{currentComponent}.std_modeD = nan;
-            fit.components{currentComponent}.modeD_MC = nan(number_of_mc_fits, 1);
+            fit.components{current_component}.modeD = nan;
+            fit.components{current_component}.std_modeD = nan;
+            fit.components{current_component}.modeD_MC = nan(number_of_mc_fits, 1);
             
-            fit.components{currentComponent}.theta = theta(currentComponent);
-            fit.components{currentComponent}.std_theta = std_theta(currentComponent);
-            fit.components{currentComponent}.theta_MC = theta_MC(:, currentComponent);
+            fit.components{current_component}.theta = theta(current_component);
+            fit.components{current_component}.std_theta = std_theta(current_component);
+            fit.components{current_component}.theta_MC = theta_MC(:, current_component);
             
             ind = ind + 2;
         case 'lognormal'
@@ -160,13 +160,13 @@ for currentComponent = 1:number_of_components
             sigma = paramhat(ind + 1);
             sigma_MC = paramhat_MC(:, ind + 1);
             
-            fit.components{currentComponent}.mu = mu;
-            fit.components{currentComponent}.std_mu = std(mu_MC, [], 1);
-            fit.components{currentComponent}.mu_MC = mu_MC;
+            fit.components{current_component}.mu = mu;
+            fit.components{current_component}.std_mu = std(mu_MC, [], 1);
+            fit.components{current_component}.mu_MC = mu_MC;
             
-            fit.components{currentComponent}.sigma = sigma;
-            fit.components{currentComponent}.std_sigma = std(sigma_MC, [], 1);
-            fit.components{currentComponent}.sigma_MC = sigma_MC;
+            fit.components{current_component}.sigma = sigma;
+            fit.components{current_component}.std_sigma = std(sigma_MC, [], 1);
+            fit.components{current_component}.sigma_MC = sigma_MC;
             
             meanD = exp(mu + sigma^2 / 2);
             meanD_MC = exp(mu_MC + sigma_MC.^2 / 2);
@@ -180,25 +180,25 @@ for currentComponent = 1:number_of_components
             modeD = exp(mu - sigma^2);
             modeD_MC = exp(mu_MC - sigma_MC.^2);
             
-            fit.components{currentComponent}.meanD = meanD;
-            fit.components{currentComponent}.std_meanD = std(meanD_MC, [], 1);
-            fit.components{currentComponent}.meanD_MC = meanD_MC;
+            fit.components{current_component}.meanD = meanD;
+            fit.components{current_component}.std_meanD = std(meanD_MC, [], 1);
+            fit.components{current_component}.meanD_MC = meanD_MC;
             
-            fit.components{currentComponent}.stdD = stdD;
-            fit.components{currentComponent}.std_stdD = std(stdD_MC, [], 1);
-            fit.components{currentComponent}.stdD_MC = stdD_MC;
+            fit.components{current_component}.stdD = stdD;
+            fit.components{current_component}.std_stdD = std(stdD_MC, [], 1);
+            fit.components{current_component}.stdD_MC = stdD_MC;
             
-            fit.components{currentComponent}.spreadD = spreadD;
-            fit.components{currentComponent}.std_spreadD = std(spreadD_MC, [], 1);
-            fit.components{currentComponent}.spreadD_MC = spreadD_MC;
+            fit.components{current_component}.spreadD = spreadD;
+            fit.components{current_component}.std_spreadD = std(spreadD_MC, [], 1);
+            fit.components{current_component}.spreadD_MC = spreadD_MC;
             
-            fit.components{currentComponent}.modeD = modeD;
-            fit.components{currentComponent}.std_modeD = std(modeD_MC, [], 1);
-            fit.components{currentComponent}.modeD_MC = modeD_MC;
+            fit.components{current_component}.modeD = modeD;
+            fit.components{current_component}.std_modeD = std(modeD_MC, [], 1);
+            fit.components{current_component}.modeD_MC = modeD_MC;
             
-            fit.components{currentComponent}.theta = theta(currentComponent);
-            fit.components{currentComponent}.std_theta = std_theta(currentComponent);
-            fit.components{currentComponent}.theta_MC = theta_MC(:, currentComponent);
+            fit.components{current_component}.theta = theta(current_component);
+            fit.components{current_component}.std_theta = std_theta(current_component);
+            fit.components{current_component}.theta_MC = theta_MC(:, current_component);
             
             ind = ind + 2;
         case 'gamma'
@@ -208,13 +208,13 @@ for currentComponent = 1:number_of_components
             beta = paramhat(ind + 1) * bmax;
             beta_MC = paramhat_MC(:, ind + 1) * bmax;
             
-            fit.components{currentComponent}.alpha = alpha;
-            fit.components{currentComponent}.std_alpha = std(alpha_MC, [], 1);
-            fit.components{currentComponent}.alpha_MC = alpha_MC;
+            fit.components{current_component}.alpha = alpha;
+            fit.components{current_component}.std_alpha = std(alpha_MC, [], 1);
+            fit.components{current_component}.alpha_MC = alpha_MC;
             
-            fit.components{currentComponent}.beta = beta;
-            fit.components{currentComponent}.std_beta = std(beta_MC, [], 1);
-            fit.components{currentComponent}.beta_MC = beta_MC;
+            fit.components{current_component}.beta = beta;
+            fit.components{current_component}.std_beta = std(beta_MC, [], 1);
+            fit.components{current_component}.beta_MC = beta_MC;
             
             meanD = alpha / beta;
             meanD_MC = alpha_MC ./ beta_MC;
@@ -228,25 +228,25 @@ for currentComponent = 1:number_of_components
             modeD = (alpha - 1) / beta;
             modeD_MC = (alpha_MC - 1) ./ beta_MC;
             
-            fit.components{currentComponent}.meanD = meanD;
-            fit.components{currentComponent}.std_meanD = std(meanD_MC, [], 1);
-            fit.components{currentComponent}.meanD_MC = meanD_MC;
+            fit.components{current_component}.meanD = meanD;
+            fit.components{current_component}.std_meanD = std(meanD_MC, [], 1);
+            fit.components{current_component}.meanD_MC = meanD_MC;
             
-            fit.components{currentComponent}.stdD = stdD;
-            fit.components{currentComponent}.std_stdD = std(stdD_MC, [], 1);
-            fit.components{currentComponent}.stdD_MC = stdD_MC;
+            fit.components{current_component}.stdD = stdD;
+            fit.components{current_component}.std_stdD = std(stdD_MC, [], 1);
+            fit.components{current_component}.stdD_MC = stdD_MC;
             
-            fit.components{currentComponent}.spreadD = spreadD;
-            fit.components{currentComponent}.std_spreadD = std(spreadD_MC, [], 1);
-            fit.components{currentComponent}.spreadD_MC = spreadD_MC;
+            fit.components{current_component}.spreadD = spreadD;
+            fit.components{current_component}.std_spreadD = std(spreadD_MC, [], 1);
+            fit.components{current_component}.spreadD_MC = spreadD_MC;
             
-            fit.components{currentComponent}.modeD = modeD;
-            fit.components{currentComponent}.std_modeD = std(modeD_MC, [], 1);
-            fit.components{currentComponent}.modeD_MC = modeD_MC;
+            fit.components{current_component}.modeD = modeD;
+            fit.components{current_component}.std_modeD = std(modeD_MC, [], 1);
+            fit.components{current_component}.modeD_MC = modeD_MC;
             
-            fit.components{currentComponent}.theta = theta(currentComponent);
-            fit.components{currentComponent}.std_theta = std_theta(currentComponent);
-            fit.components{currentComponent}.theta_MC = theta_MC(:, currentComponent);
+            fit.components{current_component}.theta = theta(current_component);
+            fit.components{current_component}.std_theta = std_theta(current_component);
+            fit.components{current_component}.theta_MC = theta_MC(:, current_component);
             
             ind = ind + 2;
     end

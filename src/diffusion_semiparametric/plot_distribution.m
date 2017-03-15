@@ -37,6 +37,9 @@ for current_component = 1:number_of_components
     end
 end
 
+minD = 0.5 * minD;
+maxD = 2.0 * maxD;
+
 DD = logspace(log10(minD),log10(maxD),10000);
 y = zeros(size(DD));
 
