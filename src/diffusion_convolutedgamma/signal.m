@@ -1,4 +1,4 @@
-function [val,grad] = signal_convolutedgamma(b,mu,sigma,I0,Ib)
+function [val,grad] = signal(b,mu,sigma,I0,Ib)
 
 nConv = numel(mu);
 

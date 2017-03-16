@@ -1,4 +1,4 @@
-function [val,grad] = sumofsquares_convolutedgamma(b,I,m,s,I0,Ib)
+function [val,grad] = sumofsquares(b,I,m,s,I0,Ib)
 
 nConv = numel(m);
 

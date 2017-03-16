@@ -1,4 +1,4 @@
-function [muhat,sigmahat,alphahat,betahat,I0hat,Ibhat,ss] = analyze_convolutedgamma(b,I,nConv,baseline,nFits)
+function [muhat,sigmahat,alphahat,betahat,I0hat,Ibhat,ss] = analyze(b,I,nConv,baseline,nFits)
 
 % Rescaling for numerical reasons.
 bmax = max(b);

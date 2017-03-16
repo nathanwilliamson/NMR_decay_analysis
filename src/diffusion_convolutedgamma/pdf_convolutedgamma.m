@@ -1,4 +1,4 @@
-function f = pdf_convolutedgamma(D,alpha,beta,nTerms)
+function f = convolutedgamma_pdf(D,alpha,beta,nTerms)
 
 beta1 = max(beta);
 rho = sum(alpha);
