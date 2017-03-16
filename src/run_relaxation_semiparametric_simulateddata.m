@@ -30,7 +30,7 @@ I = I + sigma_error * randn(size(I));
 number_of_fits = 3;
 
 % Number of Monte Carlo repetitions (0 = no error analysis).
-number_of_mc_fits = 0;
+number_of_mc_fits = 100;
 
 % Type of model (combine exponential, stretched exponential, lognormal, and
 % gamma freely)
