@@ -32,8 +32,8 @@ for current_component = 1:number_of_components
             minT = min(minT, logninv(1e-6, fit.components{current_component}.mu, fit.components{current_component}.sigma));
             maxT = max(maxT, logninv(1-1e-6, fit.components{current_component}.mu, fit.components{current_component}.sigma));
         case 'inversegamma' % NB the 'P' values for the inversion are 'inverted', P -> 1 - P, evaluated for the gamma, not the inversegamma
-            minT = min(minT, gaminv(1-1e-6, fit.components{current_component}.alpha, 1 / fit.components{current_component}.beta));
-            maxT = max(maxT, gaminv(1e-6, fit.components{current_component}.alpha, 1 / fit.components{current_component}.beta));
+            minT = min(minT, 1 / gaminv(1-1e-6, fit.components{current_component}.alpha, 1 / fit.components{current_component}.beta));
+            maxT = max(maxT, 1 / gaminv(1e-6, fit.components{current_component}.alpha, 1 / fit.components{current_component}.beta));
     end
 end
 
