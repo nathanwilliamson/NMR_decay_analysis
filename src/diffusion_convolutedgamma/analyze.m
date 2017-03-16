@@ -46,6 +46,7 @@ ub = [ub_m ub_s ub_I0 ub_Ib];
 ss = inf;
 
 for current_fit = 1:number_of_fits
+    disp(current_fit)
     mean0 = rand_mean_D(b);
     std0 = rand_mean_D(b);
     

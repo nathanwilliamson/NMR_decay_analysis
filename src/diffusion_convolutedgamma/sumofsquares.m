@@ -2,7 +2,7 @@ function [val, grad] = sumofsquares(b, I, m, s, I0, Ib)
 
 number_of_convolutions = numel(m);
 
-[val_signal, grad_signal] = signal_convolutedgamma(b, m, s, I0, Ib);
+[val_signal, grad_signal] = signal(b, m, s, I0, Ib);
 
 val = sum( (I - val_signal).^2 );
 
