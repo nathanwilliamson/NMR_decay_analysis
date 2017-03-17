@@ -16,11 +16,13 @@ options.MaxFunctionEvaluations = 10000; % Modern settings.
 options.MaxIterations = 1000;
 options.OptimalityTolerance = 1e-8;
 options.ConstraintTolerance = 1e-8;
+options.SpecifyObjectiveGradient = true;
 
 options.MaxFunEvals = 10000; % Legacy settings.
 options.MaxIter = 1000;
 options.TolFun = 1e-8;
 options.TolX = 1e-8;
+options.GradObj = 'on';
 
 % Lower and upper bounds for parameters.
 lb_m = zeros(1, number_of_convolutions);
