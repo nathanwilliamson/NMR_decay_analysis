@@ -19,7 +19,7 @@ b		= load('b.txt');
 I		= load('I.txt'); 
 (I is the signal intensity vector. For diffusion, b is in units of s/m^2. For relaxation, t is in units of s.)
 
-If experiments were performed in TopSpin, you can use TopSpin T1T2 analysis to create matrices for input (instructions given below in the Preparation of Data in TopSpin section). Upon analysis with TopSpin T1T2, the files for input are created and stored within the experiment folder. The two necessary files are diff.xml and t1t2.dx. Copy these files from your experiment folder to your matlab path.
+If experiments were performed in TopSpin, you can use TopSpin T1T2 analysis to create matrices for input. Upon analysis with TopSpin T1T2, the files for input are created and stored within the experiment folder. The two necessary files are diff.xml and t1t2.dx. Copy these files from your experiment folder to your matlab path.
 Add to path the folder io_bruker
 Add the lines 
 filename_dx    = 't1t2.dx';
