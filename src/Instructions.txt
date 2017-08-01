@@ -1,0 +1,41 @@
+NMR decay analysis, Magnus Röding and Nathan Williamson (August 2017)
+instructions for analyzing diffusion and relaxation data
+
+1. unzip files into matlab working folder
+2. add to path the relevant subroutines folder e.g. diffusion_semiparametric for diffusion analysis (but no others)
+3. open and run the relevant run file e.g. run_diffusion_semiparametric_simulateddata.m. A data set will be simulated and analyzed using the model and fit parameters listed. 
+The matlab command window will show the results of the fit, including the residual sum of squares, the distribution model components and their estimated parameter values as well as the associated standard deviation and confidence intervals (from Monte-Carlo error analysis)
+Figure 1 shows the data, model fit, and residuals. Figure 2 shows the distribution. The height of delta functions (from single exponential models) are scaled by their component fractions.
+
+To change fitting parameters, under the section %% model and fit and parameters, 
+Increase number of fits as appropriate. 
+Increase number of Monte Carlo repetitions for error analysis. 
+Set type of model to one or a combination of the possible models listed, e.g, model = {{'gamma'}} uses the gamma distribution model. model = {{'stretchedexponential'}} uses the stretched exponential model.  Model = {{'gamma'}, {'exponential'}} uses a combined, gamma + exponential model.
+Model parameters can be locked to a specific value or bound within a specific range, e.g., model = {{'gamma','beta',12}}; locks the parameter beta to 12. model = {{'gamma'}, {'exponential','D',[1E-9,1E-8],'theta',0.1}}; specified the diffusion coefficient value of the exponential component to be within 1E-9 and 1E-8 m^2/s, and specifies the fraction (theta) of the exponential component to be 0.1.
+A baseline can be included (baseline=true) or not included (baseline=false)
+
+To analyze your own data, comment out the section %%Simulate data set. Read in the data, e.g., 
+b		= load('b.txt'); 
+I		= load('I.txt'); 
+(I is the signal intensity vector. For diffusion, b is in units of s/m^2. For relaxation, t is in units of s.)
+
+If experiments were performed in TopSpin, you can use TopSpin T1T2 analysis to create matrices for input (instructions given below in the Preparation of Data in TopSpin section). Upon analysis with TopSpin T1T2, the files for input are created and stored within the experiment folder. The two necessary files are diff.xml and t1t2.dx. Copy these files from your experiment folder to your matlab path.
+Add to path the folder io_bruker
+Add the lines 
+filename_dx    = 't1t2.dx';
+filename_xml   = 'diff.xml';
+experiment     = readdiffdata(filename_dx,filename_xml);
+peakInd                     = 1; %specify the appropriate peak number
+b                           = experiment.b{peakInd};
+I                           = experiment.I{peakInd};
+
+Relevant papers for parametric and semiparametric distribution modeling, as used here, and their applications: 
+J.S. Alper, R.I. Gelb, Standard errors and confidence intervals in nonlinear regression: comparison of Monte Carlo and parametric statistics, J Phys Chem, 94 (1990) 4747-4751.
+B. Håkansson, M. Nydén, O. Söderman, The influence of polymer molecular-weight distributions on pulsed field gradient nuclear magnetic resonance self-diffusion experiments, Colloid Polym Sci, 278 (2000) 399-405.
+M. Röding, N.H. Williamson, M. Nyden, Gamma convolution models for self-diffusion coefficient distributions in PGSE NMR, J Magn Reson, 261 (2015) 6-10.
+K.J. Layton, M. Morelande, D. Wright, P.M. Farrell, B. Moran, L.A. Johnston, Modelling and Estimation of Multicomponent T2 Distributions, Ieee T Med Imaging, 32 (2013) 1423-1434.
+M. Röding, M. Nydén, Stejskal-tanner equation for three asymmetrical gradient pulse shapes used in diffusion NMR, Concepts in Magnetic Resonance Part A, 44 (2015) 133-137.
+M. Röding, D. Bernin, J. Jonasson, A. Särkkä, D. Topgaard, M. Rudemo, B.M. Nydén, The gamma distribution model for pulsed-field gradient NMR studies of molecular-weight distributions of polymers, J Magn Reson, 222 (2012) 105-111.
+N.H. Williamson, M. Nydén, M. Röding, The lognormal and gamma distribution models for estimating molecular weight distributions of polymers using PGSE NMR, J Magn Reson, 267 (2016) 54-62.
+N.H. Williamson, M. Röding, P. Galvosas, S.J. Miklavcic, M. Nydén, Obtaining T1-T2 distribution functions from 1-dimensional T1 and T2 measurements: The pseudo 2-D relaxation model, J Magn Reson, 269 (2016) 186-195.
+N.H. Williamson, M. Röding, S.J. Miklavcic, M. Nydén, Scaling exponent and dispersity of polymers in solution by diffusion NMR, J Colloid Interface Sci, 493 (2017) 393-397.
